@@ -21,7 +21,7 @@ CACHES = {
 INSTALLED_APPS = [
     'daphne',
     'drf_spectacular',
-    'gunicorn',
+    # 'gunicorn',
 ] + INSTALLED_APPS
 
 
