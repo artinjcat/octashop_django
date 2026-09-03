@@ -12,6 +12,8 @@ front_urls = [
     path('api/front/catalogs/', include(('apps.catalogs.urls.front','apps.catalogs'), namespace='catalogs-front')),
 ]
 
+
+
 doc_urls = [
     # YOUR PATTERNS
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
