@@ -2,12 +2,17 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from decouple import config  # type: ignore
 
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE',
-                          'octashop_nili.envs.development')
+    if config('DJANGO_DEVELOPMENT', default=False, cast=bool):
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE',
+                              'octashop_nili.envs.development')
+    else:
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE',
+                              'octashop_nili.envs.deployment')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

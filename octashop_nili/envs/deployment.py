@@ -1,21 +1,58 @@
 from .common import *
+from decouple import config  # type: ignore
+
+ALLOWED_HOSTS = ['niliteb.com', 'www.niliteb.com', '91.212.174.66']
 
 
+CORS_ALLOWED_ORIGINS = ['https://91.212.174.66', 'https://niliteb.com', 'https://www.niliteb.com']
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION":  "redis://redis:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PASSWORD": config('REDIS_PASSWORD'),
+        }
+    }
+}
 
 
 INSTALLED_APPS = [
-    'daphne',
-    'drf_spectacular'
+    "gunicorn",
 ] + INSTALLED_APPS
+
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': DB_NAME,
-        'HOST': DB_HOST,
-        'USER': DB_USER,
-        'PASSWORD': DB_PASS,
-        'PORT': DB_PORT
+        'NAME': config('DB_NAME'),
+        'HOST': 'db',
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASS'),
+        'PORT': config('DB_PORT')
     }
 }
+
+
+CORS_ALLOW_CREDENTIALS = True
+
+# LOGGING = {
+#     'version': 1,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'loggers': {
+#         'django.db.backends': {
+#             'level': 'DEBUG',
+#         },
+#     },
+#     'root': {
+#         'handlers': ['console'],
+#     }
+# }
+
+
 

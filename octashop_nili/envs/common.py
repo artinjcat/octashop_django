@@ -1,3 +1,4 @@
+from calendar import c
 import os
 from pathlib import Path
 from datetime import timedelta
@@ -10,6 +11,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config("SECRET_KEY")
+
+DEBUG = config('DJANGO_DEBUG', default=False, cast=bool)
 
 
 # Application definition
@@ -110,21 +113,12 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
+STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = '/vol/web/media'
+STATIC_ROOT = '/vol/web/static'
 
-if DEBUG:
-    STATICFILES_DIRS = [BASE_DIR / 'static']
-    STATIC_URL = '/static/'
-    # MEDIA_URL = f'{BASE_URL}media/'
-    MEDIA_URL = '/media/'
-    # MEDIA_ROOT = os.path.join(BASE_DIR.parent, 'data/web/media')
-    MEDIA_ROOT = '/vol/web/media'
-    STATIC_ROOT = '/vol/web/static'
-else:
-    STATICFILES_DIRS = [BASE_DIR / 'static']
-    STATIC_URL = '/static/'
-    STATIC_ROOT = '/vol/web/static'
-    MEDIA_URL = '/media/'
-    MEDIA_ROOT = '/vol/web/media'
     
 
 
@@ -144,7 +138,6 @@ SIMPLE_JWT = {
 
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=90),
-
 }
 
 
@@ -190,3 +183,30 @@ JALALI_SETTINGS = {
 
 AUTH_USER_MODEL = "users.User"
 
+
+
+
+BASE_URL = 'http://127.0.0.1:8000/'
+
+
+# EMAIL_HOST="mail.privateemail.com"
+EMAIL_HOST = "smtp.privateemail.com"
+EMAIL_PORT = "465"
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_USE_SSL = True
+EMAIL_FROM = config('EMAIL_FROM')
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_TIMEOUT = 60
+# EMAIL_USE_TLS=465
+
+
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+#         "LOCATION": "unique-snowflake",
+#     }
+# }
+
+# 
