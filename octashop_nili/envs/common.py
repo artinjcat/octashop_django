@@ -1,3 +1,6 @@
+#filename: common.py
+
+
 from calendar import c
 import os
 from pathlib import Path
@@ -181,11 +184,6 @@ JALALI_SETTINGS = {
 
 
 AUTH_USER_MODEL = "users.User"
-
-
-
-
-BASE_URL = 'http://127.0.0.1:8000/'
 
 
 # EMAIL_HOST="mail.privateemail.com"

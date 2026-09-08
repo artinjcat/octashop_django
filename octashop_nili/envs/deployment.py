@@ -1,10 +1,22 @@
+# filename: deployment.py
+
 from .common import *
 from decouple import config  # type: ignore
 
 ALLOWED_HOSTS = ['niliteb.com', 'www.niliteb.com', '91.212.174.66']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://niliteb.com',
+    'https://www.niliteb.com',
+]
 
-CORS_ALLOWED_ORIGINS = ['https://91.212.174.66', 'https://niliteb.com', 'https://www.niliteb.com']
+
+CORS_ALLOWED_ORIGINS = ['https://niliteb.com', 'https://www.niliteb.com']
+CORS_ALLOW_CREDENTIALS = True
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 CACHES = {
     "default": {
@@ -36,8 +48,8 @@ DATABASES = {
     }
 }
 
+BASE_URL = 'https://niliteb.com/'
 
-CORS_ALLOW_CREDENTIALS = True
 
 # LOGGING = {
 #     'version': 1,
