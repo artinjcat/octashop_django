@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 
 from apps.cart.forms import CheckOutOrderForm
 from apps.catalogs.models import Category, Product
+from apps.payments.models import OrderedProduct
 
 
 
@@ -117,5 +118,5 @@ class CartCheckOutView():
             else:
                 return render(request, 'carts/checkout.html', context)
         else:
-            return redirect("login")
+            return redirect("users:login")
         

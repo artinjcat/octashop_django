@@ -49,7 +49,7 @@
                   شماره تلفن همراه:
                 </div>
                 <div class="text-sm opacity-90">
-                  {{user.customer.phone_number}}
+                  {{user.phone_number}}
                 </div>
               </div>
               <div class="w-1/2">
@@ -57,7 +57,7 @@
                   تاریخ عضویت:
                 </div>
                 <div class="text-sm opacity-90">
-                  {{user.customer.get_jalali_date}}
+                  {{user.get_jalali_date}}
                 </div>
               </div>
             </div>
@@ -80,7 +80,7 @@
               </div>
             </div> {% endcomment %}
             <span class="opacity-90">
-              <a href="{% url 'edit-profile' %}" class="px-7 py-2 text-center text-white bg-red-500 align-middle border-0 rounded-lg shadow-md text-sm">ویرایش اطلاعات</a>
+              <a href="{% url 'users-site:edit-profile' %}" class="px-7 py-2 text-center text-white bg-red-500 align-middle border-0 rounded-lg shadow-md text-sm">ویرایش اطلاعات</a>
             </span>
           </div>
         </div>

@@ -39,7 +39,9 @@ def about_us(request):
     return render(request, "shops/about-us.html", context)
 
 def category_summary_view(request):
+    
     context = {}
+    context["sub_categories"] = sub_category_list()
     return render(request,"shops/category-summary.html",context)
 
 

@@ -14,7 +14,7 @@ User = get_user_model()
 
 
 def sub_category_list():
-    return Category.objects.all().order_by("sorted_by")
+    return Category.objects.filter(depth=1, is_public=True).order_by("title")
 
 def login_user(request):
     if request.method == "POST":

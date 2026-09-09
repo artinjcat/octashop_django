@@ -16,24 +16,24 @@
         </div>
         <br>
         <div>
-          {{user.customer.phone_number}}
+          {{user.phone_number}}
         </div>
       </span>
-      <a href="{% url 'logout' %}" class="text-sm opacity-80 border-t w-full pt-2 flex justify-center flex-row-reverse items-center hover:text-red-600 transition">
+      <a href="{% url 'users-site:logout' %}" class="text-sm opacity-80 border-t w-full pt-2 flex justify-center flex-row-reverse items-center hover:text-red-600 transition">
         خروج از حساب
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#474747" viewBox="0 0 256 256"><path d="M110,216a6,6,0,0,1-6,6H48a14,14,0,0,1-14-14V48A14,14,0,0,1,48,34h56a6,6,0,0,1,0,12H48a2,2,0,0,0-2,2V208a2,2,0,0,0,2,2h56A6,6,0,0,1,110,216Zm110.24-92.24-40-40a6,6,0,0,0-8.48,8.48L201.51,122H104a6,6,0,0,0,0,12h97.51l-29.75,29.76a6,6,0,1,0,8.48,8.48l40-40A6,6,0,0,0,220.24,123.76Z"></path></svg>
       </a>
     </div>
     <div class="border rounded-3xl shadow-lg flex flex-col justify-center items-center p-2 gap-y-2">
-      <a href="{% url 'profile' %}" class="text-sm opacity-80 w-full flex justify-end pr-5 flex-row-reverse items-center hover:text-red-600 transition hover:bg-gray-100 py-3 rounded-2xl" id="profile-right">
+      <a href="{% url 'users-site:profile' %}" class="text-sm opacity-80 w-full flex justify-end pr-5 flex-row-reverse items-center hover:text-red-600 transition hover:bg-gray-100 py-3 rounded-2xl" id="profile-right">
         پروفایل
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#474747" viewBox="0 0 256 256"><path d="M229.19,213c-15.81-27.32-40.63-46.49-69.47-54.62a70,70,0,1,0-63.44,0C67.44,166.5,42.62,185.67,26.81,213a6,6,0,1,0,10.38,6C56.4,185.81,90.34,166,128,166s71.6,19.81,90.81,53a6,6,0,1,0,10.38-6ZM70,96a58,58,0,1,1,58,58A58.07,58.07,0,0,1,70,96Z"></path></svg>            
       </a>
-      <a href="{% url 'checkout' %}" class="text-sm opacity-80 w-full flex justify-end pr-5 flex-row-reverse items-center hover:text-red-600 transition hover:bg-gray-100 py-3 rounded-2xl" id="checkout-right">
+      <a href="{% url 'cart-site:cart_summary' %}" class="text-sm opacity-80 w-full flex justify-end pr-5 flex-row-reverse items-center hover:text-red-600 transition hover:bg-gray-100 py-3 rounded-2xl" id="checkout-right">
         سبد خرید
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#474747" viewBox="0 0 256 256"><path d="M134,120v56a6,6,0,0,1-12,0V120a6,6,0,0,1,12,0ZM237.88,97.85,224,201.85A14,14,0,0,1,210.13,214H45.87A14,14,0,0,1,32,201.85l-13.87-104A14,14,0,0,1,32,82H69.28l54.2-61.95a6,6,0,0,1,9,0l54.2,62H224a14,14,0,0,1,13.87,15.85ZM85.22,82h85.56L128,33.11ZM225.5,94.68A2,2,0,0,0,224,94H32a2,2,0,0,0-1.51.68A2,2,0,0,0,30,96.26l13.86,104a2,2,0,0,0,2,1.73H210.13a2,2,0,0,0,2-1.73L226,96.26A1.93,1.93,0,0,0,225.5,94.68ZM181.4,114a6,6,0,0,0-6.57,5.37l-5.6,56A6,6,0,0,0,174.6,182l.61,0a6,6,0,0,0,6-5.4l5.6-56A6,6,0,0,0,181.4,114ZM81.17,119.4a6,6,0,0,0-11.94,1.2l5.6,56a6,6,0,0,0,6,5.4l.61,0a6,6,0,0,0,5.37-6.57Z"></path></svg>            
       </a> 
-      <a href="{% url 'orders-view' %}" class="text-sm opacity-80 w-full flex justify-end pr-5 flex-row-reverse items-center hover:text-red-600 transition hover:bg-gray-100 py-3 rounded-2xl" id="orders-right">
+      <a href="{% url 'payments-site:orders-view' %}" class="text-sm opacity-80 w-full flex justify-end pr-5 flex-row-reverse items-center hover:text-red-600 transition hover:bg-gray-100 py-3 rounded-2xl" id="orders-right">
         سفارش ها
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#474747" viewBox="0 0 256 256"><path d="M134,120v56a6,6,0,0,1-12,0V120a6,6,0,0,1,12,0ZM237.88,97.85,224,201.85A14,14,0,0,1,210.13,214H45.87A14,14,0,0,1,32,201.85l-13.87-104A14,14,0,0,1,32,82H69.28l54.2-61.95a6,6,0,0,1,9,0l54.2,62H224a14,14,0,0,1,13.87,15.85ZM85.22,82h85.56L128,33.11ZM225.5,94.68A2,2,0,0,0,224,94H32a2,2,0,0,0-1.51.68A2,2,0,0,0,30,96.26l13.86,104a2,2,0,0,0,2,1.73H210.13a2,2,0,0,0,2-1.73L226,96.26A1.93,1.93,0,0,0,225.5,94.68ZM181.4,114a6,6,0,0,0-6.57,5.37l-5.6,56A6,6,0,0,0,174.6,182l.61,0a6,6,0,0,0,6-5.4l5.6-56A6,6,0,0,0,181.4,114ZM81.17,119.4a6,6,0,0,0-11.94,1.2l5.6,56a6,6,0,0,0,6,5.4l.61,0a6,6,0,0,0,5.37-6.57Z"></path></svg>            
       </a> 
@@ -53,7 +53,7 @@
         اطلاعات حساب
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#474747" viewBox="0 0 256 256"><path d="M142,176a6,6,0,0,1-6,6,14,14,0,0,1-14-14V128a2,2,0,0,0-2-2,6,6,0,0,1,0-12,14,14,0,0,1,14,14v40a2,2,0,0,0,2,2A6,6,0,0,1,142,176ZM124,94a10,10,0,1,0-10-10A10,10,0,0,0,124,94Zm106,34A102,102,0,1,1,128,26,102.12,102.12,0,0,1,230,128Zm-12,0a90,90,0,1,0-90,90A90.1,90.1,0,0,0,218,128Z"></path></svg>
       </a> {% endcomment %}
-      <a href="{% url 'update-password' %}" class="text-sm opacity-80 w-full flex justify-end pr-5 flex-row-reverse items-center hover:text-red-600 transition hover:bg-gray-100 py-3 rounded-2xl" id="change-pass-right">
+      <a href="{% url 'users-site:update-password' %}" class="text-sm opacity-80 w-full flex justify-end pr-5 flex-row-reverse items-center hover:text-red-600 transition hover:bg-gray-100 py-3 rounded-2xl" id="change-pass-right">
         تغییر رمز عبور
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#474747" viewBox="0 0 256 256"><path d="M142,176a6,6,0,0,1-6,6,14,14,0,0,1-14-14V128a2,2,0,0,0-2-2,6,6,0,0,1,0-12,14,14,0,0,1,14,14v40a2,2,0,0,0,2,2A6,6,0,0,1,142,176ZM124,94a10,10,0,1,0-10-10A10,10,0,0,0,124,94Zm106,34A102,102,0,1,1,128,26,102.12,102.12,0,0,1,230,128Zm-12,0a90,90,0,1,0-90,90A90.1,90.1,0,0,0,218,128Z"></path></svg>
       </a>

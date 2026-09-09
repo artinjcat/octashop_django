@@ -22,7 +22,7 @@
         <div class="text-lg md:text-xl opacity-70 mb-3">
           جزئیات صورت حساب
         </div>
-        <form action="{% url 'checkout' %}" method="POST">
+        <form action="{% url 'cart-site:checkout' %}" method="POST">
           {% csrf_token %}
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-5 px-5 md:px-20">
@@ -64,15 +64,15 @@
               
               <span class="card swiper-slide my-2 p-2 md:p-3 ">
                 <div class="image-box mb-6 ">
-                  <a href="{% url 'product' product.id %}">
+                  <a href="{% url 'home-site:product' product.id %}">
                     <div class="image-box sm:mb-6">
-                    <img class="hover:scale-105 transition rounded-3xl w-full mx-auto" src="{{ product.images.all.0.image.url }}" alt="تصویر محصول" />
+                    <img class="hover:scale-105 transition rounded-3xl w-full mx-auto" src="{{ product.images.all.0.image.image.url }}" alt="تصویر محصول" />
                     </div>
                   </a>
                 </div>
                 <div class="space-y-3 text-center">
                   <span class="text-sm opacity-80 mb-2 h-8 md:h-10">
-                    <a href="{% url 'product' product.id %}">
+                    <a href="{% url 'home-site:product' product.id %}">
                       {{product.category}}
                       {% if product.model is not None %}
                         {{ product.model }}

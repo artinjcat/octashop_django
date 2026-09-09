@@ -28,6 +28,7 @@ site_urls = [
     path('api/site/catalogs/', include(('apps.catalogs.urls.site', 'apps.catalogs'), namespace='catalogs-site')),
     path('auth/', include(('auth.users.urls.site','auth.users'), namespace='users-site')),
     path('api/site/cart/', include(('apps.cart.urls.site','apps.cart'), namespace='cart-site')),
+    path('api/site/payment/', include(('apps.payments.urls.site','apps.payments'), namespace='payments-site')),
 ]
 
 urlpatterns = [

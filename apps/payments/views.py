@@ -18,8 +18,8 @@ class Payment():
         if request.user.is_authenticated:
             context={}
             context["sub_categories"] = sub_category_list()
-            if Order.objects.filter(customer = request.user.customer).exists:
-                context["orders"] = Order.objects.filter(customer = request.user.customer).order_by("-id")
+            if Order.objects.filter(customer = request.user).exists:
+                context["orders"] = Order.objects.filter(customer = request.user).order_by("-id")
                 return render(request, "accounts/profile-order.html", context)
             else:
                 return render(request, "carts/cart_empty.html",context)
