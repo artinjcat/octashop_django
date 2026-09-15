@@ -111,7 +111,7 @@
         <div class="flex-1 group">
           <a
 
-            {% comment %} href="{% url 'profile' %}" {% endcomment %}
+            href="{% url 'users-site:profile' %}" 
 
             class="flex items-end justify-center text-center mx-auto pt-2 w-full text-gray-800 group-hover:text-red-500"
           >
@@ -168,7 +168,7 @@
         </div>
         <div class="flex-1 group">
           <a
-            {% comment %}  href="{% url 'index' %}" {% endcomment %}
+            href="{% url 'home-site:home' %}" 
             class="flex items-end justify-center text-center mx-auto pt-2 w-full text-red-500"
           >
             <span class="block pt-1 pb-1">
@@ -193,9 +193,9 @@
         </div>
         <div class="flex-1 group">
           <a
-            {% comment %}
-            href="{% url 'search' %}"
- {% endcomment %}
+            
+            href="{% url 'searches-site:search' %}"
+
             class="flex items-end justify-center text-center mx-auto pt-2 w-full text-gray-800 group-hover:text-red-500"
           >
             <span class="block pt-1 pb-1">
@@ -221,7 +221,7 @@
         <div class="flex-1 group">
           <a
  
-            {% comment %} href="{% url 'cart_summary' %}" {% endcomment %}
+            href="{% url 'cart-site:cart_summary' %}" 
  
             class="flex items-end justify-center text-center mx-auto pt-2 w-full text-gray-800 group-hover:text-red-500"
           >
