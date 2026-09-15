@@ -48,7 +48,7 @@
               <ul class="list-reset">
                 <!-- every categories objects to list -->
 
-                {% for category in sub_category.products.all %}
+                {% for category in sub_category.get_children %}
                 <li class="relative">
                   <a
                     href="{% url 'home-site:product-category' category.id %}"
@@ -108,7 +108,7 @@
                 {% endif %}
                 <li class="relative">
                   <a
-                     {% comment %} href="{% url 'home-site:search'%}" {% endcomment %}
+                      href="{% url 'searches-site:search'%}" 
                     class="px-4 py-2 flex w-full items-start hover:bg-red-100 rounded-lg transition no-underline hover:no-underline duration-100 cursor-pointer"
                   >
                     <span class="flex-1">جستجو</span>

@@ -132,36 +132,36 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-5 px-1 rounded-2xl py-5">
               {% for last in last20 %}
               
-              <a href="{% url 'product' last.id %}" class="my-2 py-2 md:p-3 border rounded-xl flex items-center sm:inline hover:shadow-lg transition">
+              <a href="{% url 'home-site:product' last.id %}" class="my-2 py-2 md:p-3 border rounded-xl flex items-center sm:inline hover:shadow-lg transition">
                 <div class="image-box sm:mb-6">
                   <div>
-                    <img class="hover:scale-105 transition rounded-md sm:rounded-3xl w-24 sm:w-full mx-auto" src="{{ last.images.all.0.image.url }}" alt="" />
+                    <img class="hover:scale-105 transition rounded-md sm:rounded-3xl w-24 sm:w-full mx-auto" src="{{ last.images.all.0.image.image.url }}" alt="" />
                   </div>
                 </div>
                 <div class="flex flex-col w-full">
                   <span class="text-xs sm:text-sm opacity-90 mb-5">
                     <div class="leading-7 h-auto">
                       {{ last.category }} 
-                      {% if last.model is not None %}
-                        {{ last.model}}
+                      {% if last.brand is not None %}
+                        {{ last.brand}}
                       {% endif %}
           
-                      {{ last.company_name}}
+                      {{ last.title }}
                     </div>
                   </span>
-                  {% if last.is_offer %}
+                  {% if last.stockrecords.all.0.in_offer %}
       <div class="flex justify-end mb-2 text-sm opacity-80 pl-3 md:pl-0">
-        <div>{{ last.offer_price }}</div>
+        <div>{{ last.stockrecords.all.0.offer_price }}</div>
         <div>تومان</div>
       </div>
       <div class="flex justify-end text-xs opacity-75 pl-3 md:pl-0">
         
-        <div class="line-through">{{last.price}}</div>
+        <div class="line-through">{{last.stockrecords.all.0.sale_price}}</div>
         <div class="line-through">تومان</div>
       </div>
       {% else %}
       <div class="flex justify-end mb-2 text-sm opacity-80 pl-3 md:pl-0">
-        <div>{{ last.price }}</div>
+        <div>{{ last.stockrecords.all.0.sale_price }}</div>
         <div>تومان</div>
       </div>
       

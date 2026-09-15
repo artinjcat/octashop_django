@@ -333,3 +333,19 @@ class ProductBrand(models.Model):
 
     def __str__(self):
         return self.title
+    
+    
+class LastOffer(models.Model):
+    product = models.ForeignKey(Product, verbose_name=_("آخرین پیشنهاد"), on_delete=models.CASCADE, related_name="last_offer")
+    offer_price = models.PositiveIntegerField(_("قیمت با تخفیف"), null=False, blank=False)
+    offer_time = models.DateTimeField(_("زمان باقیمانده"), auto_now=False, auto_now_add=False)
+    
+    
+    class Meta:
+        verbose_name = 'آخرین پیشنهاد'
+        verbose_name_plural = 'آخرین پیشنهاد ها'
+        
+    def __str__(self):
+        return self.product
+    
+    

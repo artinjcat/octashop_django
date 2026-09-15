@@ -16,7 +16,7 @@ $(document).ready(function(){
 
     $.ajax({
 
-      url : `/api/front/product/products/?q=${searchValue}`,
+      url : `/api/site/searches/products/?q=${searchValue}`,
       type : 'GET',
       data : {},
       // dataType:'json',
@@ -31,7 +31,7 @@ $(document).ready(function(){
           $("#srchbx").append(`
               <a href="/product/${response[key].id}" class="flex items-center bg-white p-2 rounded-xl">
           
-          <div class="text-xs opacity-70">${response[key].product_name}</div>
+          <div class="text-xs opacity-70">${response[key].title}</div>
         </a>
               `)
             ;

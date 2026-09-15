@@ -6,7 +6,7 @@
       class="fixed top-0 right-0 bottom-0 flex flex-col w-5/6 max-w-sm py-5 px-6 bg-white border-r overflow-y-auto">
       <div class="flex justify-center items-center mb-4">
         <a class="order-1" 
-        {% comment %} href="{% url 'index' %}" {% endcomment %}
+        href="{% url 'home-site:home' %}" 
         >
           <img class="w-32" src="{% static 'base/image/logo.png' %}" alt="" />
         </a>
@@ -19,7 +19,7 @@
                 <div
                   class="md:flex justify-center align-middle lg:inline-block py-2 px-4 text-sm text-neutral-800 rounded-xl hover:text-neutral-700 hover:bg-red-100 transition">
                   <a
-                   {% comment %} href="{% url 'cart_summary' %}" {% endcomment %}
+                    href="{% url 'cart-site:cart_summary' %}" 
                    >
                     <img
                       class="inline ml-1 w-5"
@@ -31,7 +31,7 @@
                 <div
                 class="md:flex justify-center align-middle lg:inline-block py-2 px-4 text-sm text-neutral-800 rounded-xl hover:text-neutral-700 hover:bg-red-100 transition">
                 <a
-                 {% comment %} href="{% url 'profile' %}" {% endcomment %}
+                  href="{% url 'users-site:profile' %}"
                   ><img
                     class="inline ml-1 w-5"
                     src="{% static 'base/image/user.png' %}"
@@ -44,7 +44,7 @@
                 <div
                   class="md:flex justify-center align-middle lg:inline-block py-2 px-4 text-sm text-neutral-800 rounded-xl hover:text-neutral-700 hover:bg-red-100 transition">
                   <a
-                   {% comment %} href="{% url 'login' %}" {% endcomment %}
+                    href="{% url 'users-site:login' %}"
                     ><img
                       class="inline ml-1 w-5"
                       src="{% static 'base/image/user.png' %}"
@@ -84,14 +84,14 @@
               <div
                 class="bg-white rounded-2xl w-full relative z-10 py-2 px-2">
                 <ul class="list-reset">
-                  {% for category in sub_category.p_category.all %}
+                  {% for category in sub_category.get_children %}
                   <li
                     class="relative"
                     x-data="{showChildren:false}"
                     @mouseleave="showChildren=false"
                     @mouseenter="showChildren=true">
                     <a
-                      {% comment %} href="{% url 'product-category' category.id %}" {% endcomment %}
+                      href="{% url 'home-site:product-category' category.id %}"
                       class="px-4 py-2 flex w-full items-start hover:bg-red-100 rounded-lg transition no-underline hover:no-underline duration-100 cursor-pointer">
                       <span class="flex-1">{{ category }}</span>
                     </a>

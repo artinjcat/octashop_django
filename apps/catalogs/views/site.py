@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from django.db.models import Q
 
 from apps.catalogs.infrastructure.models import LastOffer, Product
-from apps.catalogs.serializers.site import LastOfferSerializer, ProductLastOfferSerializer, ProductSerializer
+from apps.catalogs.serializers.front import LastOfferSerializer, ProductLastOfferSerializer, ProductSerializer
 
 # ReadOnlyModelViewSet:
 # methods:{ get.all , get.by_id}
