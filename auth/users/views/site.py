@@ -40,7 +40,7 @@ def login_user(request):
                 return redirect("home-site:home")
             else:
                 messages.success(request, "دوباره تلاش کنید 1")
-                return redirect("login")
+                return redirect("users-site:login")
         else:
             messages.success(request, "دوباره تلاش کنید 2")
             return render(request,"accounts/login.html",{})
@@ -78,7 +78,7 @@ def profile_user(request):
         context["sub_categories"] = sub_category_list()
         return render(request, "accounts/profile.html", context)
     else:
-        return redirect("login")
+        return redirect("users-site:login")
     
 def edit_profile_user(request):
     if request.user.is_authenticated:
@@ -98,16 +98,16 @@ def update_password(request):
                 form.save()
                 messages.success(request, "رمز عبور با موفقیت تغییر کرد.")
                 login(request, current_user)
-                return redirect("profile")
+                return redirect("users-site:profile")
             else:
                 for error in list(form.errors.values()):
                     messages.error(request, error)
-                return redirect("update-password")
+                return redirect("users-site:update-password")
         else:
             context["form"] = ChangePasswordForm(current_user)
             return render(request, "accounts/update-password.html", context)
     else:
-        return redirect("login")
+        return redirect("users-site:login")
     
     
     
@@ -118,7 +118,7 @@ def favorites(request):
         return render(request, "accounts/favorites.html", context)
         
     else:
-        return redirect("login")
+        return redirect("users-site:login")
     
     
 def rules_page(request):

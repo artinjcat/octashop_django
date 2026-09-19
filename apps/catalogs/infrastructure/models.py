@@ -134,6 +134,200 @@ class Option(models.Model):
         return self.title
 
 
+
+
+
+
+# Tags:
+# آرام‌بخش، دمنوش، خواب
+
+# Form:
+# خشک شده
+
+# Origin:
+# ایران
+
+
+
+# چند فیلد دیگر که برای عطاری احتمالاً بعداً به کارت می‌آید:
+
+# Product
+# ---------
+# scientific_name
+# latin_name
+# weight
+# unit
+# origin
+# organic
+# expiration_date
+# usage_instruction
+# warning
+
+# Tag برای ویژگی‌های آزاد
+# Usage برای نیاز مشتری
+# ProductAttribute برای مشخصات
+# Brand برای برندها
+# Ingredient برای ترکیبات
+
+
+
+
+
+# 3. Tag برای نیاز مشتری
+
+# یک جدول ساده:
+
+# Tag
+# ----
+# name
+# slug
+# type
+
+# مثلاً:
+
+# خواب
+# آرامش
+# گوارش
+# سردرد
+# پوست
+# مو
+# لاغری
+# تقویت بدن
+# انرژی
+
+# و:
+
+# ProductTag
+# -----------
+# product_id
+# tag_id
+
+# حالا:
+
+# گل گاوزبان
+
+# Category:
+# گیاهان دارویی > گیاه خشک
+
+# Tags:
+# آرامش
+# خواب
+# دمنوش
+
+
+
+
+
+# 5. وزن و بسته‌بندی را جدا کن
+
+# این یکی در عطاری مهم است.
+
+# مثلاً:
+
+# گل گاوزبان
+# - 50 گرم
+# - 100 گرم
+# - 250 گرم
+
+# به جای اینکه سه محصول بسازی:
+
+# گل گاوزبان 50 گرم
+# گل گاوزبان 100 گرم
+# گل گاوزبان 250 گرم
+
+# بهتر:
+
+# Product
+#    |
+#    + Variant
+#         |
+#         + وزن: 50 گرم
+#         + وزن: 100 گرم
+#         + وزن: 250 گرم
+
+# مدل:
+
+# ProductVariant
+# ---------------
+# product_id
+# weight
+# price
+# stock
+# sku
+# 6. برند را جدا کن
+
+# حتی اگر الان فقط یک عطاری است، بگذار:
+
+# Brand
+# ------
+# name
+# slug
+# logo
+
+# چون بعداً ممکن است محصولاتی از برندهای مختلف اضافه شود.
+
+# 7. یک چیز مهم برای SEO
+
+# برای هر Category:
+
+# Category
+# ---------
+# name
+# slug
+# meta_title
+# meta_description
+# description
+# image
+
+# مثلاً:
+
+# /category/herbal-tea/
+
+# عنوان:
+# خرید دمنوش گیاهی طبیعی
+
+# توضیح:
+# انواع دمنوش آرام‌بخش، انرژی‌بخش و ترکیبی...
+# 8. چیزی که فعلاً اضافه نمی‌کنم
+
+# برای نسخه اول این‌ها را نمی‌سازم:
+
+# ❌ Ingredient جدا
+# ❌ Recipe
+# ❌ Prescription
+# ❌ Medical claim system
+# ❌ ترکیب سفارشی
+# ❌ Warehouse پیچیده
+
+# چون برای MVP فقط سرعت توسعه را کم می‌کنند.
+
+# اگر پروژه Django باشد، من احتمالاً ساختار اپ‌ها را این شکلی می‌چینم:
+
+# apps/
+# ├── catalog
+# │   ├── Category (NPNode)
+# │   ├── Product
+# │   ├── ProductVariant
+# │   ├── Brand
+# │   └── Tag
+# │
+# ├── orders
+# │
+# ├── cart
+# │
+# ├── accounts
+# │
+# └── blog
+
+# در کل چون گفتی تقریباً طراحی کردی، به نظرم فقط دو چیز را حتماً چک کن:
+
+# Variant برای وزن/حجم داری؟ (برای عطاری خیلی مهم است)
+# Category را از Tag جدا کردی؟ (بزرگ‌ترین اشتباه رایج همین است)
+
+
+
+
+
 class Product(AuditableModel):
     
     class ProductTypeChoice(models.TextChoices):
@@ -159,8 +353,6 @@ class Product(AuditableModel):
         _("meta description"), null=True, blank=True)
     meta_keywords = models.CharField(
         _("meta keywords"), max_length=1024, null=True, blank=True)
-    category = models.ForeignKey(
-        Category, on_delete=models.PROTECT, related_name='products', verbose_name=_("category"))
 
     product_class = models.ForeignKey(ProductClass, on_delete=models.PROTECT,
                                       related_name='products', verbose_name=_("product class"), blank=True, null=True)
@@ -284,8 +476,50 @@ class ProductImage(models.Model):
             image.display_order = index
             image.save()
             
-            
 
+class ProductVariant(models.Model):
+
+    product = models.ForeignKey(
+        "Product",
+        on_delete=models.CASCADE,
+        related_name="variants",
+    )
+
+    name = models.CharField(
+        max_length=255,
+    )
+
+    sku = models.CharField(
+        max_length=100,
+        unique=True,
+    )
+
+    barcode = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        unique=True,
+    )
+
+    is_active = models.BooleanField(
+        default=True,
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True,
+    )
+
+    def __str__(self):
+        return f"{self.product} - {self.name}"
+    
+    
+    
+    
+    
 class CategoryImages(models.Model):
     category = models.ForeignKey(Category, verbose_name=_("محصول"), on_delete=models.CASCADE, related_name="images")
     image = models.ImageField(_("تصویر"),
@@ -333,19 +567,3 @@ class ProductBrand(models.Model):
 
     def __str__(self):
         return self.title
-    
-    
-class LastOffer(models.Model):
-    product = models.ForeignKey(Product, verbose_name=_("آخرین پیشنهاد"), on_delete=models.CASCADE, related_name="last_offer")
-    offer_price = models.PositiveIntegerField(_("قیمت با تخفیف"), null=False, blank=False)
-    offer_time = models.DateTimeField(_("زمان باقیمانده"), auto_now=False, auto_now_add=False)
-    
-    
-    class Meta:
-        verbose_name = 'آخرین پیشنهاد'
-        verbose_name_plural = 'آخرین پیشنهاد ها'
-        
-    def __str__(self):
-        return self.product
-    
-    
