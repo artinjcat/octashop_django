@@ -14,7 +14,7 @@ def home(request):
     context["sub_categories"] = sub_category_list()
     context["hero_sliders"] = TopSliderModel.objects.all().order_by("-id")[0:10]
     context['title_header'] = "نیلی طب"
-    context["more_offer"] = Product.objects.filter(stockrecords__in_offer=True).order_by("-id")[0:10]
+    # context["more_offer"] = Product.objects.filter(variants__stockrecords__in_offer=True).order_by("-id")[0:10]
     return render(request, 'home/home.html', context)
 
 
@@ -23,7 +23,7 @@ def category_view(request, pk):
     context["sub_categories"] = sub_category_list()
     # context["category"] = ProductCategory.objects.get(id=pk).category
     context['title_header'] = "نیلی طب"
-    context["products"] = Product.objects.filter(category=pk)
+    context["products"] = Product.objects.filter(categories__id__exact=pk)
 
     return render(request, 'shops/product-category.html', context)
 
@@ -52,5 +52,5 @@ class FetchDataAPI():
 def last_offer(request):
     context = {}
     context["sub_categories"] = sub_category_list()
-    context["products"] = Product.objects.filter(is_public = True, stockrecords__in_offer = True)
+    # context["products"] = Product.objects.filter(is_public = True, all__variants__stockrecords__in_offer = True)
     return render(request,"shops/last-offer.html",context)

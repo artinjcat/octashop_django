@@ -75,7 +75,9 @@ class StockRecord(models.Model):
       
 
     def __str__(self):
-        return f"{self.variant} - {self.variant.sku}"
+        return f"{self.variant} -"
+    # {self.variant.sku}
+    
   
   
     @transaction.atomic
