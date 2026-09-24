@@ -1,8 +1,7 @@
-
- const button = document.querySelector("button");
-  let arrayInputs = [] ;
-  arrayInputs = document.querySelectorAll(".inputVerify");
-  arrayInputs.forEach((input, index1) => {
+const button = document.querySelector("button");
+let arrayInputs = [];
+arrayInputs = document.querySelectorAll(".inputVerify");
+arrayInputs.forEach((input, index1) => {
   input.addEventListener("keyup", (e) => {
     const currentInput = input,
       nextInput = input.nextElementSibling,
@@ -28,11 +27,26 @@
         }
       });
     }
-    if (!arrayInputs[3].disabled && arrayInputs[3].value !== "") {
+    if (!arrayInputs[4].disabled && arrayInputs[4].value !== "") {
       button.classList.add("active");
       return;
     }
     button.classList.remove("active");
   });
+
 });
+
+const digitsInput = document.querySelector("input[name='digits']");
+function updateDigitsInput() {
+  const digits = Array.from(arrayInputs)
+    .map((input) => input.value)
+    .join("");
+  digitsInput.value = digits;
+}
+arrayInputs.forEach((input) => {
+  input.addEventListener("input", updateDigitsInput);
+  console.log("digits: ", digitsInput.value);
+});
+
+
 window.addEventListener("load", () => arrayInputs[0].focus());

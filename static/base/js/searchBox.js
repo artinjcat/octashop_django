@@ -27,9 +27,9 @@ $(document).ready(function(){
           //   class="w-14 rounded-lg ml-2"
           // />
         for (key in response) {
-          console.log(key)
+          console.log(key.variants)
           $("#srchbx").append(`
-              <a href="/product/${response[key].id}" class="flex items-center bg-white p-2 rounded-xl">
+              <a href="/variant/${response[key].id}" class="flex items-center bg-white p-2 rounded-xl">
           
           <div class="text-xs opacity-70">${response[key].title}</div>
         </a>

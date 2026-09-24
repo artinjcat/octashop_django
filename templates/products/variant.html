@@ -38,37 +38,37 @@
             </div> {% endcomment %}
             <div>
               <div class="max-w-[300px] mx-auto">
-                <img class="mySlides rounded-xl md:rounded-3xl" src="{{ product.images.all.0.image.image.url }}" style="width:100%">
-                {% comment %} <img class="mySlides rounded-xl md:rounded-3xl" src="{{ product.images.all.0.image.url }}" style="width:100%;display:none">
-                <img class="mySlides rounded-xl md:rounded-3xl" src="{{ product.images.all.0.image.url }}" style="width:100%;display:none">
-                <img class="mySlides rounded-xl md:rounded-3xl" src="{{ product.images.all.0.image.url }}" style="width:100%;display:none"> {% endcomment %}
+                <img class="mySlides rounded-xl md:rounded-3xl" src="{{ variant.product.images.all.0.image.image.url }}" style="width:100%">
+                {% comment %} <img class="mySlides rounded-xl md:rounded-3xl" src="{{ variant.product.images.all.0.image.url }}" style="width:100%;display:none">
+                <img class="mySlides rounded-xl md:rounded-3xl" src="{{ variant.product.images.all.0.image.url }}" style="width:100%;display:none">
+                <img class="mySlides rounded-xl md:rounded-3xl" src="{{ variant.product.images.all.0.image.url }}" style="width:100%;display:none"> {% endcomment %}
               </div>
               <div class="flex justify-around gap-x-4 mt-3">
                 <div class="max-w-[80px]">
-                  <img class="rounded-xl opacity-70 hover:opacity-100 transition" src="{{ product.images.all.0.image.image.url }}" onclick="currentDiv(1)">
+                  <img class="rounded-xl opacity-70 hover:opacity-100 transition" src="{{ variant.product.images.all.0.image.image.url }}" onclick="currentDiv(1)">
                 </div>
                 {% comment %} <div class="max-w-[80px]">
-                  <img class="rounded-xl opacity-70 hover:opacity-100 transition" src="{{ product.images.all.0.image.image.url }}" onclick="currentDiv(2)">
+                  <img class="rounded-xl opacity-70 hover:opacity-100 transition" src="{{ variant.product.images.all.0.image.image.url }}" onclick="currentDiv(2)">
                 </div>
                 <div class="max-w-[80px]">
-                  <img class="rounded-xl opacity-70 hover:opacity-100 transition" src="{{ product.images.all.0.image.image.url }}" onclick="currentDiv(3)">
+                  <img class="rounded-xl opacity-70 hover:opacity-100 transition" src="{{ variant.product.images.all.0.image.image.url }}" onclick="currentDiv(3)">
                 </div>
                 <div class="max-w-[80px]">
-                  <img class="rounded-xl opacity-70 hover:opacity-100 transition" src="{{ product.images.all.0.image.url }}" onclick="currentDiv(4)">
+                  <img class="rounded-xl opacity-70 hover:opacity-100 transition" src="{{ variant.product.images.all.0.image.url }}" onclick="currentDiv(4)">
                 </div> {% endcomment %}
               </div>
             </div> 
           </div>
           <div class="w-full lg:w-2/3 mt-5 md:mt-0">
             <div class="opacity-80 text-lg font-semibold">
-              {{ product.category }} 
+              {{ variant.product.category }} 
               -
-              {% if product.brand is not None %}
-                {{ product.brand}}
+              {% if variant.product.brand is not None %}
+                {{ variant.product.brand}}
               {% endif %}
               -
           
-               {{ product.title }}
+               {{ variant.product.title }}
             </div>
             {% comment %} <div class="opacity-50 text-xs mt-2 mb-4">
               Apple iPhone 13 Pro Single SIM 1TB And 6GB RAM Mobile Phone
@@ -161,7 +161,7 @@
                     ویژگی های محصول:
                   </div>
                   <div class="flex flex-col gap-y-2 text-xs">
-                    {% for attribute in product.attributes.all %}
+                    {% for attribute in variant.product.attributes.all %}
                     <div class=" flex items-center">
                       <h3 class="opacity-60 ml-1">
                       {{attribute.title}}:
@@ -207,13 +207,13 @@
                       </div> {% endcomment %}
                       <div class="flex text-red-500">
                         <div>
-                          {% if product.stockrecords.all.0.in_offer %}
-                            {{product.stockrecords.all.0.offer_price}}
+                          {% if variant.product.stockrecords.all.0.in_offer %}
+                            {{variant.product.stockrecords.all.0.offer_price}}
                             <div>
                           تومان
                         </div>
                           {% else %}
-                            {{product.stockrecords.all.0.sale_price}}
+                            {{variant.product.stockrecords.all.0.sale_price}}
                             <div>
                           تومان
                         </div>
@@ -232,8 +232,8 @@
                   </div>
                   <!-- add to cart-->
                   <span class="flex justify-center items-center opacity-90">
-                    {% if product.stockrecords.all.0.num_stock > 0 %}
-                      <button type="button" value={{product.id}} id="add-cart" class="px-7 py-2 text-center text-white bg-red-500 align-middle border-0 rounded-lg shadow-md text-sm" csrf = "{{csrf_token}}">افزودن به سبد خرید</button>
+                    {% if variant.product.stockrecords.all.0.num_stock > 0 %}
+                      <button type="button" value={{variant.product.id}} id="add-cart" class="px-7 py-2 text-center text-white bg-red-500 align-middle border-0 rounded-lg shadow-md text-sm" csrf = "{{csrf_token}}">افزودن به سبد خرید</button>
                     {% else %}
                       <button class="px-7 py-2 text-center text-white bg-gray-500 align-middle border-0 rounded-lg shadow-md text-sm" disabled>
                         ناموجود
@@ -316,21 +316,21 @@
                   بررسی تخصصی محصول
                 </span>  {% endcomment %}
                 <span class="border-b-red-500 border-b text-sm">
-                  {{ product.meta_title }}
+                  {{ variant.product.meta_title }}
                 </span>
                 
               </div>
               <div class="md:flex gap-3">
                 <p class="text-gray-500 text-sm leading-7 mt-3 justify-between">
-                {{ product.meta_description }}
+                {{ variant.product.meta_description }}
                 </p>
                 {% comment %} <img class="max-w-[320px] w-full mx-auto rounded-3xl" src="{% static 'base/image/product/good.jpg' %}" alt=""> {% endcomment %}
               </div>
               <br>
-              {% if product.about.exists %}
+              {% if variant.product.about.exists %}
 
               
-              {% for about in product.about.all %}
+              {% for about in variant.product.about.all %}
                 <div class="flex flex-col items-start gap-y-4">
                 <span class="border-b-red-500 border-b text-sm">
                   {{ about.title }}

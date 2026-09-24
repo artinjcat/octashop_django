@@ -2,7 +2,7 @@ from django.contrib import admin
 from treebeard.admin import TreeAdmin
 from treebeard.forms import movenodeform_factory
 
-from apps.catalogs.infrastructure.models import ProductBrand, ProductImage
+from apps.catalogs.infrastructure.models import ProductAbout, ProductBrand, ProductImage, ProductVariant
 
 from .models import (Option,
                      ProductClass,
@@ -75,14 +75,18 @@ class ProductImageInline(admin.TabularInline):
     model = ProductImage
     extra = 2
     
+class ProductAboutInline(admin.TabularInline):
+    model = ProductAbout
+    extra = 1
+    max_num = 5  # Limit to one instance per product
     
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('title', 'slug',)
     inlines = [
-        # ProductCategoryInline,
         ProductAttributeValueInline,
         ProductImageInline,
+        ProductAboutInline,
         ProductRecommendationInline,
         ]
     prepopulated_fields = {"slug": ("title",)}
@@ -93,3 +97,33 @@ class ProductAdmin(admin.ModelAdmin):
 class ProductBrandAdmin(admin.ModelAdmin):
     list_display = ('title', 'slug',)
     prepopulated_fields = {"slug": ("title",)}
+    
+    
+    
+    
+@admin.register(ProductAttribute)
+class ProductAttributeAdmin(admin.ModelAdmin):
+    list_display = ('title', 'type', 'product_class',)
+    list_filter = ('product_class',)
+    search_fields = ('title', 'type',)
+    
+    
+@admin.register(ProductRecommendation)
+class ProductRecommendationAdmin(admin.ModelAdmin):
+    list_display = ('primary', 'recommendation',)
+    list_filter = ('primary__product_class',)
+    search_fields = ('primary__title', 'recommendation__title',)
+    
+    
+@admin.register(ProductVariant)
+class ProductVariantAdmin(admin.ModelAdmin):
+    list_display = ('product', 'title', 'sku',)
+    list_filter = ('product',)
+    search_fields = ('title', 'sku',)
+    
+    
+@admin.register(ProductAbout)
+class ProductAboutAdmin(admin.ModelAdmin):
+    list_display = ('product', 'title',)
+    list_filter = ('product',)
+    search_fields = ('title', 'description',)

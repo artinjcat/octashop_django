@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from apps.catalogs.infrastructure.models import ProductVariant
 from apps.catalogs.models import Category,Product
 from apps.home.models import TopSliderModel
 
@@ -32,6 +33,12 @@ def product_view(request,pk):
     context["sub_categories"] = sub_category_list()
     context["product"] = Product.objects.get(id = pk)
     return render(request, "products/product.html", context)
+
+def variant_view(request,pk):
+    context = {}
+    context["sub_categories"] = sub_category_list()
+    context["variant"] = ProductVariant.objects.get(id = pk)
+    return render(request, "products/variant.html", context)
 
 def about_us(request):
     context = {}

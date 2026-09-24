@@ -1,12 +1,20 @@
+from math import e
+
+from django.core.cache import cache
 from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth import authenticate, get_user_model, login , logout
 from django.contrib.auth.models import User
+import sms_ir
 from apps.cart.cart import Cart
 from auth.users.forms import SignUpForm,ChangePasswordForm
-
+from decouple import config
 from django.contrib import messages
 from apps.catalogs.models import Category
 import json
+import secrets
+
+from sms_ir import SmsIr
+
 # from carts.cart import Cart
 
 
@@ -21,10 +29,8 @@ def login_user(request):
         phone_number = request.POST["phone_number"]
         if User.objects.filter(phone_number = phone_number).exists():
             requested_user = get_object_or_404(User,phone_number = phone_number)
-            
             password = request.POST["password"]
             user = authenticate(request, username=requested_user.username, password=password)
-            print("user:",user)
             if user is not None:
                 login(request, user)
                 
@@ -55,23 +61,86 @@ def logout_user(request):
 def register_user(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
-        print("form errors:",form.errors)
         if form.is_valid():
-            print("form is valid")
+            
+            
+            
+            try:
+                
+                phone_number = form.cleaned_data["phone_number"]
+                
+                # username = form.cleaned_data["username"]
+                # password = form.cleaned_data["password1"]
+                # user = User.objects.get(username = username)
+                # customer = User.objects.create(user = user, phone_number = request.POST.get("phone_number"))
+                # user_auth = authenticate(username = username, password = password)
+                # login(request, user_auth)
+                
+                
+                
+                request.session["verify_phone"] = phone_number
+                
+                otp = secrets.randbelow(90000) + 10000
+                cache.set(phone_number, otp, timeout=120)  # Cache the OTP for 2 minutes
+                sms_ir = SmsIr(
+                    config('SMS_IR_API_KEY'),config('LINE_NUMBER')
+                )
+                # sms_ir.send_sms(phone_number, f"کد تایید شما در نیلی طب: {otp}")
+                print(f"OTP for {phone_number}: {otp}")  # For debugging purposes
+            
+            except Exception as e:
+                print(f"Error sending SMS: {e}")
+                messages.error(request, "خطا در ارسال پیامک. لطفاً دوباره تلاش کنید.")
+                return render(request, "accounts/register.html", {})
+            
             form.save()
-            username = form.cleaned_data["username"]
-            password = form.cleaned_data["password1"]
-            user = User.objects.get(username = username)
-            # customer = User.objects.create(user = user, phone_number = request.POST.get("phone_number"))
-            user_auth = authenticate(username = username, password = password)
-            login(request, user_auth)
-            return redirect("home-site:home")
+            
+            
+            
+            
+            return redirect("users-site:verify-phone-number" )
         else:
             messages.error(request, form.errors)
             return render(request, "accounts/register.html", {})
     else:
         return render(request, "accounts/register.html", {})
     
+    
+    
+    
+    
+def verify_phone_number(request):
+    phone_number = request.session.get("verify_phone")
+    if request.method == "POST":
+        entered_otp = request.POST.get("digits")
+        cached_otp = cache.get(phone_number)
+        print(f"Entered OTP: {entered_otp}, Cached OTP: {cached_otp}")  # Debugging line
+        if cached_otp and str(cached_otp) == entered_otp:
+            
+            # OTP is valid, proceed with user registration
+            user = get_object_or_404(User, phone_number=phone_number)
+            if user.is_active == False:
+                user.is_active = True
+                user.save()
+            
+            # Log the user in after successful verification
+            login(request, user)
+            
+            # Clear the session variable
+            del request.session["verify_phone"]
+            
+            return redirect("home-site:home")
+        else:
+            messages.error(request, "کد وارد شده اشتباه است یا منقضی شده است.")
+            return render(request, "accounts/verify-phone-number.html", {"phone_number": phone_number})
+    
+    
+    return render(request, "accounts/verify-phone-number.html", {"phone_number": phone_number})
+
+
+
+
+
 def profile_user(request):
     if request.user.is_authenticated:
         context = {}

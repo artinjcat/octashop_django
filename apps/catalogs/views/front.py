@@ -27,6 +27,18 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
         queryset = self.queryset.filter(filter_query)
         return queryset
     
+# class VariantViewSet(viewsets.ReadOnlyModelViewSet):
+#     queryset = Product.objects.filter(is_public = True)
+#     serializer_class = ProductSerializer
+#     def get_queryset(self):
+#         filter_query = Q()
+#         products_title = self.request.query_params.get('q')
+#         if products_title is not None:
+#             products_title = products_title.replace("/","")
+#             filter_query = Q(title__icontains=products_title)
+#         queryset = self.queryset.filter(filter_query)
+#         return queryset
+    
 class ProductLastOfferApiView(viewsets.ReadOnlyModelViewSet):
     queryset = LastOffer.objects.all()
     serializer_class = ProductLastOfferSerializer

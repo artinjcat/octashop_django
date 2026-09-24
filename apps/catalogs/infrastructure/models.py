@@ -485,7 +485,7 @@ class ProductVariant(models.Model):
         related_name="variants",
     )
 
-    name = models.CharField(
+    title = models.CharField(
         max_length=255,
     )
 
@@ -514,7 +514,10 @@ class ProductVariant(models.Model):
     )
 
     def __str__(self):
-        return f"{self.product} - {self.name}"
+        return f"{self.product} - {self.title}"
+    
+    
+    
     
     
     
@@ -567,3 +570,73 @@ class ProductBrand(models.Model):
 
     def __str__(self):
         return self.title
+
+
+
+
+class VariantOptionGroup(models.Model):
+    title = models.CharField(_("title"), max_length=255, db_index=True)
+
+    class Meta:
+        verbose_name = 'variant option group'
+        verbose_name_plural = 'variant option groups'
+
+    def __str__(self):
+        return self.title
+
+
+class VariantOptionGroupValue(models.Model):
+    title = models.CharField(_("title"), max_length=255, db_index=True)
+    # group = models.ForeignKey(VariantOptionGroup, on_delete=models.CASCADE,
+    #                           related_name='values', verbose_name=_("group"))
+
+    class Meta:
+        verbose_name = 'option group value'
+        verbose_name_plural = 'option group values'
+
+    def __str__(self):
+        return self.title
+
+
+
+
+class VariantOption(models.Model):
+
+    # class OptionTypeChoice(models.TextChoices):
+    #     TEXT = 'text', _("Text")
+    #     BOOLEAN = 'boolean', _("Boolean")
+    #     INTEGER = 'integer', _("Integer")
+    #     FLOAT = 'float', _("Float")
+    #     DATE = 'date', _("Date")
+    #     DATETIME = 'datetime', _("DateTime")
+    #     OPTION_GROUP = 'option_group', _("Option Group")
+    #     OPTION = 'option', _("Option")
+    #     MULTI_OPTION = 'multi_option', _("Multi Option")
+
+    title = models.CharField(_("title"), max_length=255, db_index=True)
+    # option_group = models.ForeignKey(VariantOptionGroup, on_delete=models.PROTECT,
+    #                                  related_name='option_attributes', verbose_name=_("option group"), null=True, blank=True)
+    # type = models.CharField(_("type"), max_length=20,
+    #                         choices=OptionTypeChoice.choices, default=OptionTypeChoice.TEXT)
+    # required = models.BooleanField(_("required"), default=False)
+
+    class Meta:
+        verbose_name = 'Variant Option'
+        verbose_name_plural = 'Variant Options'
+
+    def __str__(self):
+        return self.title
+
+
+
+class ProductAbout(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='about')
+    title = models.CharField(_("title"), max_length=255, db_index=True)
+    description = models.TextField(_("description"), null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'product about'
+        verbose_name_plural = 'product abouts'
+
+    def __str__(self):
+        return f"{self.product.title} - {self.title}"
