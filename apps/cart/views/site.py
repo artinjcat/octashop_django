@@ -5,8 +5,8 @@ from django.http import JsonResponse
 from django.shortcuts import redirect
 
 from apps.cart.forms import CheckOutOrderForm
-from apps.catalogs.models import Category, Product
-from apps.payments.models import OrderedProduct
+from apps.catalogs.models import Category, Product , ProductVariant
+from apps.payments.models import OrderedVariant
 
 
 
@@ -22,9 +22,9 @@ class CartView():
         if cart.__len__() == 0:
             return render(request, "carts/cart_empty.html",context)
         else:
-            cart_products = cart.get_prods
-            context["cart_products"] = cart_products
-            quantities = cart.get_quants
+            cart_variants = cart.get_variants()
+            context["cart_variants"] = cart_variants
+            quantities = cart.get_quants()
             context["quantities"] = quantities
             totals = cart.cart_total()
             context["totals"] = totals
@@ -34,10 +34,10 @@ class CartView():
     def cart_add(request):
         cart = Cart(request)
         if request.POST.get("action")== "post":
-            product_id = request.POST.get("product_id")
+            variant_id = request.POST.get("product_id")
             product_qty = request.POST.get("qty-to-cart")
-            product = get_object_or_404(Product,id=product_id)
-            cart.add(product=product, quantity=product_qty)
+            variant = get_object_or_404(ProductVariant,id=variant_id)
+            cart.add(variant=variant, quantity=product_qty)
             cart_quantity = cart.__len__()
             
             
@@ -53,10 +53,10 @@ class CartView():
     def cart_delete(request):
         cart = Cart(request)
         if request.POST.get("action")== "remove-cart":
-            product_id = request.POST.get("product_id")
-            
-            cart.delete(product=product_id)
-            response = JsonResponse({'product':product_id})
+            variant_id = request.POST.get("variant_id")
+            variant = get_object_or_404(ProductVariant, id=variant_id)
+            cart.delete(variant=variant)
+            response = JsonResponse({'variant':variant_id})
             return response
         else:
             pass
@@ -65,11 +65,12 @@ class CartView():
     def cart_update(request):
         cart = Cart(request)
         if request.POST.get("action")== "update-cart":
-            product_id = request.POST.get("product_id")
-            product_qty = request.POST.get("qty_update")
+            variant_id = request.POST.get("variant_id")
+            variant_qty = request.POST.get("qty_update")
+            variant = get_object_or_404(ProductVariant, id=variant_id)
             
-            cart.update(product=product_id, quantity=product_qty)
-            response = JsonResponse({'qty':product_qty})
+            cart.update(variant=variant, quantity=variant_qty)
+            response = JsonResponse({'qty':variant_qty})
             return response
         
         
@@ -82,9 +83,9 @@ class CartCheckOutView():
             if cart.__len__() == 0:
                 return render(request, "carts/cart_empty.html",context)
             else:
-                cart_products = cart.get_prods
-                context["cart_products"] = cart_products
-                quantities = cart.get_quants
+                cart_variants = cart.get_variants
+                context["cart_variants"] = cart_variants
+                quantities = cart.get_quants()
                 context["quantities"] = quantities
                 totals = cart.cart_total()
                 context["totals"] = totals
@@ -93,30 +94,32 @@ class CartCheckOutView():
                 if form.is_valid:
                     try:
                         order = form.save(commit=False)
-                        order.customer = request.user.customer
+                        order.user = request.user
                         order.save()
-                        cart_p = cart_products()
-                        cart_q = quantities()
+                        cart_v = cart.get_variants()
+                        cart_q = quantities
                         
-                        for product in cart_p:
-                            quantity = cart_q[str(product.id)]
-                            op = OrderedProduct.objects.create(
+                        for variant in cart_v:
+                            quantity = cart_q[str(variant.id)]
+                            op = OrderedVariant.objects.create(
                             order = order,
-                            product = product,
+                            variant = variant,
                             quantity = quantity,
                             )
                             
                             op.save()
-                            cart.delete(product.id)
+                            cart.delete(variant)
                         # return redirect("orders-view")
-                        return redirect("order-view", pk = order.id)
+                        return redirect("payments-site:order-view", pk = order.id)
                     except Exception as error:
                         print(error)
-                        return redirect("profile")
+                        print("Error occurred while processing the order.")
+                        
+                        return redirect("users-site:profile")
                 else:
                     return redirect("checkout")
             else:
                 return render(request, 'carts/checkout.html', context)
         else:
-            return redirect("users:login")
+            return redirect("users-site:login")
         

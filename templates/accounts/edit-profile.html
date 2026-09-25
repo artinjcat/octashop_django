@@ -9,7 +9,7 @@
       <div class="flex flex-col md:flex-row gap-5">
         <div class="md:w-4/12 lg:w-3/12 flex flex-col gap-y-5">
           <div class="border rounded-3xl shadow-lg flex flex-col justify-center items-center py-4 gap-y-5">
-            <img class="border rounded-full w-24" src="./assets/image/team-2.jpg" alt="">
+            <img class="border rounded-full w-24" src="{% static 'base/image/team-2.jpg' %}" alt="">
             <span class="font-semibold opacity-80">
               {{ user.first_name}} {{user.last_name}}
             </span>
@@ -98,7 +98,7 @@
                   تاریخ عضویت:
                 </div>
                 <div class="text-sm opacity-90">
-                  {{user.get_jalali_date}}
+                  {{user.date_joined.date}}
                 </div>
               </div>
             </div>

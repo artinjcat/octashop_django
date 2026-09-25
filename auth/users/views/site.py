@@ -42,7 +42,7 @@ def login_user(request):
                     cart = Cart(request)
                     
                     for key,value in converted_cart.items():
-                        cart.db_add(product=key, quantity=value)
+                        cart.db_add(variant=key, quantity=value)
                 return redirect("home-site:home")
             else:
                 messages.success(request, "دوباره تلاش کنید 1")
@@ -65,40 +65,47 @@ def register_user(request):
             
             
             
-            try:
+            # try:
                 
-                phone_number = form.cleaned_data["phone_number"]
+                # phone_number = form.cleaned_data["phone_number"]
                 
                 # username = form.cleaned_data["username"]
                 # password = form.cleaned_data["password1"]
-                # user = User.objects.get(username = username)
-                # customer = User.objects.create(user = user, phone_number = request.POST.get("phone_number"))
-                # user_auth = authenticate(username = username, password = password)
+                # 
+                
+                # 
                 # login(request, user_auth)
                 
                 
                 
-                request.session["verify_phone"] = phone_number
+                # request.session["verify_phone"] = phone_number
                 
-                otp = secrets.randbelow(90000) + 10000
-                cache.set(phone_number, otp, timeout=120)  # Cache the OTP for 2 minutes
-                sms_ir = SmsIr(
-                    config('SMS_IR_API_KEY'),config('LINE_NUMBER')
-                )
+                # otp = secrets.randbelow(90000) + 10000
+                # cache.set(phone_number, otp, timeout=120)  # Cache the OTP for 2 minutes
+                # sms_ir = SmsIr(
+                #     config('SMS_IR_API_KEY'),config('LINE_NUMBER')
+                # )
                 # sms_ir.send_sms(phone_number, f"کد تایید شما در نیلی طب: {otp}")
-                print(f"OTP for {phone_number}: {otp}")  # For debugging purposes
+                
             
-            except Exception as e:
-                print(f"Error sending SMS: {e}")
-                messages.error(request, "خطا در ارسال پیامک. لطفاً دوباره تلاش کنید.")
-                return render(request, "accounts/register.html", {})
+            # except Exception as e:
+            #     print(f"Error sending SMS: {e}")
+            #     messages.error(request, "خطا در ارسال پیامک. لطفاً دوباره تلاش کنید.")
+            #     return render(request, "accounts/register.html", {})
             
             form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user_auth = authenticate(username = username, password = password)
+            
+            
+            login(request, user_auth)
+                        
+            return redirect("home-site:home")
             
             
             
-            
-            return redirect("users-site:verify-phone-number" )
+            # return redirect("users-site:verify-phone-number" )
         else:
             messages.error(request, form.errors)
             return render(request, "accounts/register.html", {})
@@ -114,7 +121,7 @@ def verify_phone_number(request):
     if request.method == "POST":
         entered_otp = request.POST.get("digits")
         cached_otp = cache.get(phone_number)
-        print(f"Entered OTP: {entered_otp}, Cached OTP: {cached_otp}")  # Debugging line
+        
         if cached_otp and str(cached_otp) == entered_otp:
             
             # OTP is valid, proceed with user registration

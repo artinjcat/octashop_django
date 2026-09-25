@@ -30,7 +30,7 @@
         </div>
 
         <!-- Waiting For Payment -->
-        {% elif order.payment_status == False and order.status == False%}
+        {% elif order.payment_status == False and order.status == False %}
           <div class="text-xl text-red-700 opacity-90 mb-3">
             در انتظار پرداخت...
           </div>
@@ -148,38 +148,38 @@
       </div>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 lg:px-16">
         
-        {% for product in order.ordered_product.all %}
+        {% for variant in order.ordered_variant.all %}
 
 
         <span class="card swiper-slide my-2 p-2 md:p-3 ">
           <div class="image-box mb-6 ">
-            <a href="{% url 'product' product.product.id %}">
-              <img class="hover:scale-105 transition rounded-3xl w-full mx-auto" src="{{ product.product.images.all.0.image.url }}" alt="" />
+            <a href="{% url 'home-sit:variant' variant.id %}">
+              <img class="hover:scale-105 transition rounded-3xl w-full mx-auto" src="{{ variant.product.images.all.0.image.image.url }}" alt="" />
             </a>
           </div>
           <div class="space-y-3 text-center">
             <span class="text-sm opacity-80 mb-2 h-8 md:h-10">
-              <a href="{% url 'product' product.product.id %}">
-                    {{product.product.category}}
-                      {% if product.product.model is not None %}
-                        {{ product.product.model }}
+              <a href="{% url 'home-site:variant' variant.id %}">
+                    {{variant.product.categories.all.0.name}}
+                      {% if variant.product.model is not None %}
+                        {{ variant.product.model }}
                       {% endif %}
-                    {{ product.product.company_name}}
+                    {{ variant.product.company_name}}
               </a>
             </span>
-            {% if product.product.is_offer %}
+            {% if variant.product.is_offer %}
                     <div class="flex justify-end mb-2 text-sm opacity-80 pl-3 md:pl-0">
-                      <div>{{ product.product.offer_price }}</div>
+                      <div>{{ variant.product.offer_price }}</div>
                       <div>تومان</div>
                     </div>
                     <div class="flex justify-end text-xs opacity-75 pl-3 md:pl-0">
                       
-                      <div class="line-through">{{product.product.price}}</div>
+                      <div class="line-through">{{variant.product.price}}</div>
                       <div class="line-through">تومان</div>
                     </div>
                     {% else %}
                     <div class="flex justify-end mb-2 text-sm opacity-80 pl-3 md:pl-0">
-                      <div>{{ product.product.price }}</div>
+                      <div>{{ variant.product.price }}</div>
                       <div>تومان</div>
                     </div>
                     
@@ -190,7 +190,7 @@
                     
                   {% endif %}
                   <div class="flex justify-end mb-2 text-sm opacity-80 pl-3 md:pl-0">
-                    <div>تعداد: {{ product.quantity }} </div>
+                    <div>تعداد: {{ variant.quantity }} </div>
                   </div>
                   
           </div>
@@ -272,12 +272,13 @@
         <div class="text-red-600">
           شماره کارت:
         </div>
-        <div class="flex gap-x-1">
+        <div class="flex-col gap-x-1">
           <div>
-            5562264848265562
+            6037-9912-5493-3058
           </div>
+          <br>
           <div>
-            محمد علیزاده
+            سیاوش شهبازی
           </div>
         </div>
       </div>
@@ -349,7 +350,7 @@
   <span class="flex justify-center items-center opacity-90 my-5">
     <button class="px-7 py-2 text-center text-white bg-red-500 align-middle border-0 rounded-lg shadow-md text-xs button-go" id="button-back" onclick="window.history.go(-1); return false;">صفحه قبل</button>
     <span> - </span>
-    <a href="{% url 'index' %}" class="px-7 py-2 text-center text-white bg-red-500 align-middle border-0 rounded-lg shadow-md text-xs button-go" id="button-home">صفحه اصلی</a>
+    <a href="{% url 'home-site:home' %}" class="px-7 py-2 text-center text-white bg-red-500 align-middle border-0 rounded-lg shadow-md text-xs button-go" id="button-home">صفحه اصلی</a>
     
   </span>
 </div>

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from apps.catalogs.infrastructure.models import LastOffer, Product
+from apps.catalogs.infrastructure.models import LastOffer, Product, ProductVariant
 from apps.catalogs.models import Category
 
 
@@ -57,25 +57,25 @@ class ProductLastOfferSerializer(serializers.ModelSerializer):
         
         
 class LastOfferSerializer(serializers.ModelSerializer):
-    product_category = serializers.CharField(source='category.category')
+    product_category = serializers.CharField(source='product.categories')
     # options = OptionProductSerializer(many = True ,)
-    company_name = serializers.SerializerMethodField()
+    # company_name = serializers.SerializerMethodField()
     image = serializers.SerializerMethodField('get_image_url')
     
     def get_image_url(self, obj):
         request = self.context.get('request')
-        photo_url = obj.images.first().image.url
+        photo_url = obj.product.images.first().image.image.url
         return request.build_absolute_uri(photo_url)
     
     
-    def get_company_name(self, obj):
-        cn = obj.company_name.company_name
-        return cn
+    # def get_company_name(self, obj):
+    #     cn = obj.company_name.company_name
+    #     return cn
     class Meta:
-        model = Product
+        model = ProductVariant
         # fields = '__all__'
         exclude=(
-            "is_public",
-            "balance",
+            # "is_public",
+            # "balance",
             
         )

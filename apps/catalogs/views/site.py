@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db.models import Q
 
-from apps.catalogs.infrastructure.models import LastOffer, Product
+from apps.catalogs.infrastructure.models import LastOffer, Product, ProductVariant
 from apps.catalogs.serializers.front import LastOfferSerializer, ProductLastOfferSerializer, ProductSerializer
 
 # ReadOnlyModelViewSet:
@@ -32,7 +32,7 @@ class ProductLastOfferApiView(viewsets.ReadOnlyModelViewSet):
     
 class LastOfferAPIView(APIView):
     def get(self, request, format=None):
-        products = Product.objects.filter(stockrecords__in_offer=True,is_public=True)
-        serializer = LastOfferSerializer(products, many=True, context={"request": 
+        variants = ProductVariant.objects.filter(stockrecord__in_offer=True)
+        serializer = LastOfferSerializer(variants, many=True, context={"request": 
                       request})
         return Response(serializer.data)

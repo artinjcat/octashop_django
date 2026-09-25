@@ -29,6 +29,7 @@ INSTALLED_APPS = [
 
 
     "django_jalali",
+    
     'rest_framework',
     'django_filters',
     'corsheaders',

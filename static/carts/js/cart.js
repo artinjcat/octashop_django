@@ -17,8 +17,8 @@ function getCSRFToken() {
 // change qty
 $(document).on("change",".qty-prod",function(e){
     e.preventDefault()
-    let product_id = $(this).attr("prod_id")
-    $(`#td-actions-${product_id}`).html(`<button type="submit" class=" text-green-700 update-cart" id="save-${product_id}" data-index="${product_id}">ذخیره</button>`)
+    let variant_id = $(this).attr("variant_id")
+    $(`#td-actions-${variant_id}`).html(`<button type="submit" class=" text-green-700 update-cart" id="save-${variant_id}" data-index="${variant_id}">ذخیره</button>`)
     
 
 })
@@ -27,13 +27,13 @@ $(document).on("change",".qty-prod",function(e){
 // update cart
 $(document).on("click", ".update-cart",function(e){
     e.preventDefault()
-    let product_id = $(this).data("index")
+    let variant_id = $(this).data("index")
     $.ajax({
         type: "POST",
         url: "/api/site/cart/update/",
         data: {
-            product_id : product_id,
-            qty_update: $(`#inp-id-${product_id}`).val(),
+            variant_id : variant_id,
+            qty_update: $(`#inp-id-${variant_id}`).val(),
             csrfmiddlewaretoken: getCSRFToken(),
             action : "update-cart"
         },
@@ -52,12 +52,12 @@ $(document).on("click", ".update-cart",function(e){
 // remove cart
 $(document).on("click", ".remove-cart",function(e){
     e.preventDefault()
-    let product_id = $(this).data("index")
+    let variant_id = $(this).data("index")
     $.ajax({
         type: "POST",
         url: "/api/site/cart/delete/",
         data: {
-            product_id : product_id,
+            variant_id : variant_id,
             csrfmiddlewaretoken: getCSRFToken(),
             action : "remove-cart"
         },

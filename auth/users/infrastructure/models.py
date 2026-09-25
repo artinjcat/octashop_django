@@ -4,6 +4,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.forms import ValidationError
 from django.utils.translation import gettext_lazy as _
+from django_jalali.db import models as jmodels
 
 class UserManager(BaseUserManager):
     def create_user(self, username, password=None, **extra_fields):
@@ -29,9 +30,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     full_name = models.CharField(max_length=255, blank=True)
     first_name = models.CharField(max_length=64, blank=True, null=True)
     last_name = models.CharField(max_length=64, blank=True, null=True)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     old_cart = models.CharField(_("Shopping cart"), max_length=200, null=True, blank=True)
+    date_joined = jmodels.jDateTimeField(auto_now_add=True, blank=True, null=True)
     
     objects = UserManager()
 
@@ -40,6 +42,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.username
+    
+    
+    # def get_jalali_date(self):
+    #         return date2jalali(self.user.date_joined)
     
     
     

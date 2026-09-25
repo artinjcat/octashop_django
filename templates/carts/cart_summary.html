@@ -29,24 +29,25 @@
           </thead>
           <tbody class="grid grid-cols-1 sm:grid-cols-2 md:contents gap-5">
             
-            {% for product in cart_products %}
+            {% for variant in cart_variants %}
             <tr class="bg-white border-b hover:bg-gray-50 grid grid-cols-1 justify-items-center md:table-row">
               <td class="p-4">
-                <img src="{{ product.images.all.0.image.image.url }}" class="w-48 md:w-32 max-w-full max-h-full rounded-lg" alt="تصویر محصول">
+                <img src="{{ variant.product.images.all.0.image.image.url }}" class="w-48 md:w-32 max-w-full max-h-full rounded-lg" alt="تصویر محصول">
               </td>
               <td class="md:pr-6 py-4 text-sm opacity-90 text-gray-900">
-                {{product.category}}
-                  {% if product.model is not None %}
-                    {{ product.model }}
+                {{variant.title}}
+                  <br>
+                  {% comment %} {% if variant.product.brand is not None %}
+                    {{ variant.product.brand }}
                   {% endif %}
-                {{ product.company_name}}
+                {{ variant.product.brand }} - {{ variant.name }} {% endcomment %}
               </td>
               <td class="px-6 py-4">
                 <div class="quantity flex items-center">
                   
                   {% for key, value in quantities.items %}
-                    {% if key == product.id|slugify %}
-                    <input class="w-12 h-8 mx-2 text-center border focus:outline-none rounded-lg qty-prod" type="number" min="1" step="1" value="{{ value }}" readonly prod_id="{{product.id}}" id="inp-id-{{product.id}}">
+                    {% if key == variant.id|slugify %}
+                    <input class="w-12 h-8 mx-2 text-center border focus:outline-none rounded-lg qty-prod" type="number" min="1" step="1" value="{{ value }}" readonly variant_id="{{variant.id}}" id="inp-id-{{variant.id}}">
 
                     {% endif %}
                   {% endfor %}
@@ -54,15 +55,15 @@
                 </div>
               </td>
               <td class="px-6 py-4 text-sm opacity-90 text-gray-900">
-                {% if product.stockrecords.all.0.in_offer %}
-                  {{product.stockrecords.all.0.offer_price}}
+                {% if variant.stockrecord.in_offer %}
+                  {{variant.stockrecord.offer_price}}
                 {% else %}
-                  {{product.stockrecords.all.0.sale_price}}
+                  {{variant.stockrecord.sale_price}}
                 {% endif %}
                  تومان
               </td>
-              <td class="px-6 py-4" id="td-actions-{{product.id}}">
-                <button type="submit" class=" text-red-600 remove-cart" id="del-{{product.id}}" data-index="{{product.id}}">حذف</button>
+              <td class="px-6 py-4" id="td-actions-{{variant.id}}">
+                <button type="submit" class=" text-red-600 remove-cart" id="del-{{variant.id}}" data-index="{{variant.id}}">حذف</button>
                 
                 
               </td>

@@ -6,27 +6,28 @@
 
   <!-- MAIN -->
   <div class="max-w-[1440px] mx-auto px-3">
-    {% comment %} <div class="flex gap-x-2 px-10 mt-5 md:mt-10">
+    <div class="flex gap-x-2 px-10 mt-5 md:mt-10">
       <div>
-        <a href="{% url 'index' %}" class="hover:text-red-500 transition text-sm opacity-70">خانه</a>
+        <a href="{% url 'home-site:home' %}" class="hover:text-red-500 transition text-sm opacity-70">خانه</a>
       </div>
       <div class="opacity-70">/</div>
       <div>
-        <a href="{% url 'product.category' product.category.id %}" class="hover:text-red-500 transition text-sm opacity-70">{{ product.category }}</a>
+        <a href="{% url 'home-site:category-summary'  %}" class="hover:text-red-500 transition text-sm opacity-70">{{ product.categories.first }}</a>
       </div>
       <div class="opacity-70">/</div>
       <div>
-        <a href="" class="hover:text-red-500 transition text-sm opacity-70">موبایل</a>
+        <a href="{% url 'home-site:variant' variant.id %}" class="hover:text-red-500 transition text-sm opacity-70">{{ variant }}</a>
       </div>
-    </div> {% endcomment %}
+    </div> 
     <div class="bg-white shadow-xl my-5 md:my-10 rounded-xl md:rounded-2xl p-3 md:p-5">
       <div class="p-3 w-11/12 mx-auto rounded-2xl">
         <div class="lg:flex">
           <div class="w-full lg:w-1/3">
-            {% comment %} <div>
-              <span class="flex items-center pr-20 pb-2">
+            <div>
+              {% comment %} <span class="flex items-center pr-20 pb-2">
                 <img onclick="showAlertAddTocomparison()" class="w-6 ml-2 cursor-pointer" src="{% static 'base/image/comparison.png' %}" alt="" title="مقایسه">
-                <svg
+                {% endcomment %}
+                <svg 
                   onclick="showAlertAddToFavorit()"
                   class="h-7 w-7 text-red-500 hover:text-red-600 fill-current transition cursor-pointer inline"
                   xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +36,7 @@
                     d="M12.76 3.76a6 6 0 0 1 8.48 8.48l-8.53 8.54a1 1 0 0 1-1.42 0l-8.53-8.54a6 6 0 0 1 8.48-8.48l.76.75.76-.75zm7.07 7.07a4 4 0 1 0-5.66-5.66l-1.46 1.47a1 1 0 0 1-1.42 0L9.83 5.17a4 4 0 1 0-5.66 5.66L12 18.66l7.83-7.83z"></path>
                 </svg>
               </span>
-            </div> {% endcomment %}
+            </div>
             <div>
               <div class="max-w-[300px] mx-auto">
                 <img class="mySlides rounded-xl md:rounded-3xl" src="{{ variant.product.images.all.0.image.image.url }}" style="width:100%">
@@ -61,14 +62,14 @@
           </div>
           <div class="w-full lg:w-2/3 mt-5 md:mt-0">
             <div class="opacity-80 text-lg font-semibold">
-              {{ variant.product.category }} 
+              {{ variant }} 
               -
               {% if variant.product.brand is not None %}
                 {{ variant.product.brand}}
               {% endif %}
-              -
+              {% comment %} - {% endcomment %}
           
-               {{ variant.product.title }}
+               {% comment %} {{ variant.product.title }} {% endcomment %}
             </div>
             {% comment %} <div class="opacity-50 text-xs mt-2 mb-4">
               Apple iPhone 13 Pro Single SIM 1TB And 6GB RAM Mobile Phone
@@ -156,7 +157,7 @@
                       </div>
                   </div>
                 </div> {% endcomment %}
-                <div>
+                {% comment %}<div>
                   <div class="mt-4 mb-2 opacity-80 text-sm font-semibold">
                     ویژگی های محصول:
                   </div>
@@ -168,7 +169,7 @@
                       </h3>
                       <div class="opacity-80">
                         <div class="text-right">
-                          {{attribute.attribute_value.all.first.get_value_display}}
+                           {{attribute.attribute_value.all.first.get_value_display}} 
                         </div>
                       </div>
                     </div>
@@ -179,7 +180,7 @@
                     
                     
                   </div>
-                </div>
+                </div>{% endcomment %}
               </div>
               <div class="md:w-2/5 mt-5 md:mt-0">
                 <div class="pb-5 rounded-2xl shadow-xl border">
@@ -207,13 +208,13 @@
                       </div> {% endcomment %}
                       <div class="flex text-red-500">
                         <div>
-                          {% if variant.product.stockrecords.all.0.in_offer %}
-                            {{variant.product.stockrecords.all.0.offer_price}}
+                          {% if variant.stockrecord.in_offer %}
+                            {{variant.stockrecord.offer_price}}
                             <div>
                           تومان
                         </div>
                           {% else %}
-                            {{variant.product.stockrecords.all.0.sale_price}}
+                            {{variant.stockrecord.sale_price}}
                             <div>
                           تومان
                         </div>
@@ -232,8 +233,8 @@
                   </div>
                   <!-- add to cart-->
                   <span class="flex justify-center items-center opacity-90">
-                    {% if variant.product.stockrecords.all.0.num_stock > 0 %}
-                      <button type="button" value={{variant.product.id}} id="add-cart" class="px-7 py-2 text-center text-white bg-red-500 align-middle border-0 rounded-lg shadow-md text-sm" csrf = "{{csrf_token}}">افزودن به سبد خرید</button>
+                    {% if variant.stockrecord.stock > 0 %}
+                      <button type="button" value={{variant.id}} id="add-cart" class="px-7 py-2 text-center text-white bg-red-500 align-middle border-0 rounded-lg shadow-md text-sm" csrf = "{{csrf_token}}">افزودن به سبد خرید</button>
                     {% else %}
                       <button class="px-7 py-2 text-center text-white bg-gray-500 align-middle border-0 rounded-lg shadow-md text-sm" disabled>
                         ناموجود

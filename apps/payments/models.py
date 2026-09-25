@@ -1,8 +1,9 @@
-import datetime
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.utils.safestring import mark_safe
 from django.contrib.auth import get_user_model
+from django_jalali.db import models as jmodels
 
 
 
@@ -10,11 +11,11 @@ User = get_user_model()
 
 
 def sub_directory_path_receipt(instance, filename):
-    return 'images/receipt/{0}/{1}/{2}'.format(instance.customer.id,instance.id, filename)
+    return 'images/receipt/{0}/{1}/{2}'.format(instance.user.id,instance.id, filename)
 
 class Order(models.Model):
-    customer = models.ForeignKey(
-        User, verbose_name=_("مشتری"), on_delete=models.CASCADE, null=False)
+    user = models.ForeignKey(
+        User, verbose_name=_("مشتری"), on_delete=models.CASCADE, null=True, blank=False, related_name="orders")
     national_code = models.CharField(_("کد ملی"), max_length=10)
     first_name = models.CharField(_("نام گیرنده"), max_length=20)
     last_name = models.CharField(_("نام خانوادگی گیرنده"), max_length=20)
@@ -24,10 +25,9 @@ class Order(models.Model):
         _("کد پستی"), max_length=20, default="", blank=True)
     phone_number = models.CharField(_("تلفن"), max_length=24, default="", blank=True)
     description = models.CharField(_("توضیحات"), max_length=256, null=True,blank=True)
-    order_date = models.DateField(
-        _("تاریخ ثبت سفارش"), default=datetime.datetime.today, auto_now=False, auto_now_add=False)
-    order_date_done = models.DateField(
-        _("تاریخ تکمیل سفارش"), auto_now=False, auto_now_add=False,null=True, blank=True)
+    order_date = jmodels.jDateField(_("تاریخ ثبت سفارش"), auto_now=False, auto_now_add=False, default=timezone.now)
+    order_date_done = jmodels.jDateField(
+        _("تاریخ تکمیل سفارش"), auto_now=False, auto_now_add=False,null=True, blank=True, default=None)
     status = models.BooleanField(_("تایید سفارش"), default=False)
     payment_status = models.BooleanField(_("گزارش پرداخت"), default=False)
     total_price = models.PositiveIntegerField(_("قیمت نهایی"), null=True)
@@ -52,9 +52,9 @@ class Order(models.Model):
     order_id.short_description = 'کد سفارش'
 
 
-class OrderedProduct(models.Model):
-    order = models.ForeignKey("payments.Order",on_delete=models.CASCADE, related_name="ordered_product")
-    product = models.ForeignKey("catalogs.Product",on_delete=models.CASCADE, related_name="ordered_product")
+class OrderedVariant(models.Model):
+    order = models.ForeignKey("payments.Order",on_delete=models.CASCADE, related_name="ordered_variants")
+    variant = models.ForeignKey("catalogs.ProductVariant",on_delete=models.CASCADE, related_name="ordered_variants")
     quantity = models.PositiveSmallIntegerField(_("تعداد"), default=1)
     product_price = models.PositiveIntegerField(_("قیمت محصول"),null=True,blank=True)
     product_off_price = models.PositiveIntegerField(_("قیمت با تخفیف"),null=True,blank=True)
@@ -62,5 +62,5 @@ class OrderedProduct(models.Model):
     status = models.BooleanField(_("گزارش"), default=False)
     
     
-    # def __str__(self):
-    #     return str(self.product)
+    def __str__(self):
+        return str(self.variant.title)

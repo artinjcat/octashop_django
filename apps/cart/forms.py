@@ -1,5 +1,5 @@
 from django import forms
-from apps.payments.models import Order,OrderedProduct
+from apps.payments.models import Order,OrderedVariant
 
 
 
@@ -13,5 +13,5 @@ class CheckOutOrderForm(forms.ModelForm):
 class OrderProductForm(forms.ModelForm):
     
     class Meta:
-        model = OrderedProduct
+        model = OrderedVariant
         fields = ()
