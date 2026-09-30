@@ -633,6 +633,7 @@ class ProductAbout(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='about')
     title = models.CharField(_("title"), max_length=255, db_index=True)
     description = models.TextField(_("description"), null=True, blank=True)
+    display_order = models.PositiveIntegerField(default=0)
 
     class Meta:
         verbose_name = 'product about'
@@ -640,3 +641,19 @@ class ProductAbout(models.Model):
 
     def __str__(self):
         return f"{self.product.title} - {self.title}"
+    
+    
+    
+    
+class ProductVariantAbout(models.Model):
+    variant = models.ForeignKey(ProductVariant, on_delete=models.CASCADE, related_name='about')
+    title = models.CharField(_("title"), max_length=255, db_index=True)
+    description = models.TextField(_("description"), null=True, blank=True)
+    display_order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        verbose_name = 'product variant about'
+        verbose_name_plural = 'product variant abouts'
+
+    def __str__(self):
+        return f"{self.variant.title} - {self.title}"
