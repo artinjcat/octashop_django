@@ -31,8 +31,20 @@ class ProductLastOfferApiView(viewsets.ReadOnlyModelViewSet):
     
     
 class LastOfferAPIView(APIView):
+
     def get(self, request, format=None):
-        variants = ProductVariant.objects.filter(stockrecord__in_offer=True)
-        serializer = LastOfferSerializer(variants, many=True, context={"request": 
-                      request})
+
+        variants = (
+            ProductVariant.objects
+            .filter(stockrecord__in_offer=True)
+            .select_related('stockrecord', 'product')
+            .prefetch_related('product__categories', 'product__images')
+        )
+
+        serializer = LastOfferSerializer(
+            variants,
+            many=True,
+            context={"request": request}
+        )
+
         return Response(serializer.data)

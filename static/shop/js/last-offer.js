@@ -11,7 +11,7 @@ $(document).ready(function(){
             if (response.length != 0) {
                 for (let index = 0; index < response.length; index++) {
                     $("#last-offer").append(`
-                        <a href="" class="swiper-slide md:flex bg-white">
+                        <a href="/variant/${response[index].id}" class="swiper-slide md:flex bg-white">
                         <div class="md:w-1/3">
                             <img
                             class="max-w-80 w-auto mx-auto rounded-xl"
@@ -25,8 +25,8 @@ $(document).ready(function(){
                             <div class="text-zinc-400 text-sm mt-1">${response[index].product_category}</div>
                             </div>
                             <div class="mt-7 mx-auto">
-                            <div class="text-zinc-800 text-xl font-semibold">${response[index].offer_price}</div>
-                            <div class="text-zinc-400 text-sm mt-1 line-through">${response[index].sale_price}</div>
+                            <div class="text-zinc-800 text-xl font-semibold">${response[index].stock.offer_price}</div>
+                            <div class="text-zinc-400 text-sm mt-1 line-through">${response[index].stock.sale_price}</div>
                             </div>
                                 <div class="flex w-96 mt-5 mx-auto">
                                     <div class="w-1/2" id="p-options-r"></div>
