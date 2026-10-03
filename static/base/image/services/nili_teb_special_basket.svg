@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="indigo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4C74F0"/>
+      <stop offset="1" stop-color="#1A2C7A"/>
+    </linearGradient>
+    <linearGradient id="basket" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#E8B36A"/>
+      <stop offset="1" stop-color="#A95F2B"/>
+    </linearGradient>
+    <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7AD34F"/>
+      <stop offset="1" stop-color="#1F7D3E"/>
+    </linearGradient>
+    <linearGradient id="kraft" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#E9B66E"/>
+      <stop offset="1" stop-color="#B96A31"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="2.5" stdDeviation="2.2" flood-color="#0F1F4E" flood-opacity=".16"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#shadow)">
+    <!-- basket handle -->
+    <path d="M29 68c3-30 16-45 35-45s32 15 35 45"
+          fill="none" stroke="#9E5B2A" stroke-width="8" stroke-linecap="round"/>
+    <path d="M35 67c3-24 13-36 29-36s26 12 29 36"
+          fill="none" stroke="#D89A57" stroke-width="4" stroke-linecap="round"/>
+
+    <!-- back herbs -->
+    <path d="M23 60c-7-11-4-22 7-28 6 11 3 21-7 28Z" fill="url(#leaf)"/>
+    <path d="M37 52c-1-13 7-22 19-23 0 13-7 21-19 23Z" fill="url(#leaf)"/>
+    <path d="M83 53c4-12 14-17 25-12-4 11-13 17-25 12Z" fill="url(#leaf)"/>
+    <path d="M96 62c5-10 14-14 24-9-5 10-13 14-24 9Z" fill="url(#leaf)"/>
+
+    <!-- pouch -->
+    <path d="M35 40h26l4 35H31l4-35Z" fill="url(#kraft)" stroke="#9E5E29" stroke-width="2.5"/>
+    <path d="M40 49c4 0 7 2 8 6-4 0-7-2-8-6Zm10-3c-5 1-8 4-9 8 5-1 8-3 9-8Z" fill="#244DB8"/>
+
+    <!-- jar -->
+    <rect x="66" y="44" width="20" height="31" rx="5" fill="#8B4A23"/>
+    <rect x="64" y="40" width="24" height="7" rx="3" fill="#D3A039"/>
+    <rect x="69" y="55" width="14" height="8" rx="2" fill="#F5E7C4"/>
+    <path d="M73 59c3 0 5 1 6 4-3 0-5-1-6-4Z" fill="#244DB8"/>
+
+    <!-- small bottle -->
+    <rect x="89" y="50" width="13" height="27" rx="4" fill="#D6E4FF" stroke="#2D57C8" stroke-width="2"/>
+    <rect x="91" y="44" width="9" height="8" rx="2" fill="#2D57C8"/>
+
+    <!-- basket -->
+    <path d="M21 66h86l-9 43H30l-9-43Z" fill="url(#basket)" stroke="#9E5B2A" stroke-width="3"/>
+    <path d="M28 77h72M26 88h74M31 99h64" stroke="#F0C58E" stroke-width="2.5" opacity=".75"/>
+    <path d="M40 67l-3 41M55 67l-1 42M71 67l1 42M87 67l3 41"
+          stroke="#9A582A" stroke-width="2" opacity=".45"/>
+
+    <!-- indigo ribbon -->
+    <path d="M63 73c-11-5-20-12-18-19 2-6 11-5 18 7 7-12 16-13 18-7 2 7-7 14-18 19Z"
+          fill="url(#indigo)"/>
+    <circle cx="63" cy="73" r="6" fill="#2B52BE"/>
+    <path d="M58 76 50 99l13-7 12 7-7-23Z" fill="url(#indigo)"/>
+
+    <!-- front leaves -->
+    <path d="M17 96c-10-7-12-17-5-26 10 6 13 16 5 26Z" fill="url(#leaf)"/>
+    <path d="M25 107c-10-2-17-8-18-17 10 0 18 6 19 15Z" fill="url(#leaf)"/>
+    <path d="M93 110c6-10 15-14 25-9-5 10-14 15-25 9Z" fill="url(#leaf)"/>
+
+    <!-- flower -->
+    <g transform="translate(87 101)">
+      <circle cx="0" cy="-4" r="3.2" fill="#fff"/>
+      <circle cx="4" cy="0" r="3.2" fill="#fff"/>
+      <circle cx="0" cy="4" r="3.2" fill="#fff"/>
+      <circle cx="-4" cy="0" r="3.2" fill="#fff"/>
+      <circle cx="0" cy="0" r="2.3" fill="#F2B735"/>
+    </g>
+  </g>
+</svg>
