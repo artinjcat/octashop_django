@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django_user_agents',
     
     'auth.users',
+    'auth.profiles',
+    'apps.assets',
     'apps.catalogs',
     'apps.media',
     'apps.analytics',
