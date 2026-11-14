@@ -1,8 +1,17 @@
 from django.contrib import admin
 
 from .infrastructure.models import *
+from auth.profiles.models import Profile
 
 # Register your models here.
+
+
+class ProfileInline(admin.StackedInline):
+    model = Profile
+    can_delete = False
+    verbose_name_plural = 'Profile'
+    fk_name = 'user'
+    extra = 0
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
@@ -10,6 +19,7 @@ class UserAdmin(admin.ModelAdmin):
     search_fields = ('username', 'email')
     list_filter = ('is_active',)
     # ordering = ('-date_joined',)
+    inlines = (ProfileInline,)
     
     def get_queryset(self, request):
         return super().get_queryset(request).select_related('profile')
